@@ -1,0 +1,9 @@
+#!/bin/bash
+pwd
+. exponentialBackoff
+
+
+for api_id in $(aws apigateway get-rest-apis --query "items[?name==\`$1\`].id")
+do
+  with_backoff aws apigateway delete-rest-api --rest-api-id $api_id
+done
